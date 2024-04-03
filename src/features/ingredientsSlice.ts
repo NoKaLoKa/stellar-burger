@@ -2,6 +2,7 @@ import {
   createSlice,
   createAsyncThunk,
   createSelector,
+  SerializedError,
   PayloadAction
 } from '@reduxjs/toolkit';
 
@@ -11,10 +12,7 @@ import { RootState } from '../services/store';
 
 export const getIngredientsThunk = createAsyncThunk(
   'ingredients/getIngredients',
-  async () => {
-    const res = await getIngredientsApi();
-    return res;
-  }
+  async () => await getIngredientsApi()
 );
 
 export const getIngredientsByType = (type: string) =>
@@ -24,16 +22,16 @@ export const getIngredientsByType = (type: string) =>
       ingredients && ingredients.filter((item) => item.type === type)
   );
 
-export interface DataState {
+interface DataState {
   ingredients: TIngredient[];
   isLoading: boolean;
-  error: string | null;
+  error: SerializedError | undefined;
 }
 
 const initialState: DataState = {
   ingredients: [],
   isLoading: false,
-  error: null
+  error: undefined
 };
 
 export const ingredientsSlice = createSlice({
@@ -48,20 +46,29 @@ export const ingredientsSlice = createSlice({
       state.isLoading = false;
     }
   },
+  selectors: {
+    getIsIngredientsLoading: (state) => state.isLoading,
+    getIngredients: (state) => state.ingredients
+  },
   extraReducers: (builder) => {
-    builder.addCase(getIngredientsThunk.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(getIngredientsThunk.rejected, (state) => {
-      state.isLoading = false;
-    });
-    builder.addCase(getIngredientsThunk.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.ingredients = action.payload;
-    });
+    builder
+      .addCase(getIngredientsThunk.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getIngredientsThunk.rejected, (state, action) => {
+        state.error = action.error;
+        state.isLoading = true;
+        state.ingredients = [];
+      })
+      .addCase(getIngredientsThunk.fulfilled, (state, action) => {
+        state.ingredients = action.payload;
+        state.isLoading = false;
+      });
   }
 });
 
-export const { setIngredients } = ingredientsSlice.actions;
+export const { setIsLoading, setIngredients } = ingredientsSlice.actions;
+export const { getIsIngredientsLoading, getIngredients } =
+  ingredientsSlice.selectors;
 
 export default ingredientsSlice.reducer;

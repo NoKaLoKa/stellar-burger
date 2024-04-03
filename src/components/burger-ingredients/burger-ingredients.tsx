@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, FC } from 'react';
+import { useState, useRef, useEffect, FC, useMemo } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import { TTabMode } from '@utils-types';
@@ -7,7 +7,6 @@ import { useSelector } from '../../services/store';
 import { getIngredientsByType } from '../../features/ingredientsSlice';
 
 export const BurgerIngredients: FC = () => {
-  /** TODO: взять переменные из стора */
   const buns = useSelector(getIngredientsByType('bun'));
   const mains = useSelector(getIngredientsByType('main'));
   const sauces = useSelector(getIngredientsByType('sauce'));
