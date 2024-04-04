@@ -153,7 +153,6 @@ export const registerUserApi = (data: TRegisterData) =>
   })
     .then((res) => checkResponse<TAuthResponse>(res))
     .then((data) => {
-      console.log(data);
       if (data?.success) return data;
       return Promise.reject(data);
     });

@@ -23,7 +23,7 @@ import {
 } from '@components';
 import { useEffect } from 'react';
 import { getIngredientsThunk } from '../../features/ingredientsSlice';
-import { loadUser, setUser } from '../../features/userSlice';
+import { loadUser } from '../../features/userSlice';
 import { ProtectedRoute } from '../protected-route/protected-route';
 import { loadFeedsThunk } from '../../features/ordersSlice';
 import { useDispatch } from '../../services/store';
@@ -38,7 +38,6 @@ const App = () => {
   useEffect(() => {
     dispatch(getIngredientsThunk());
     dispatch(loadUser());
-    dispatch(loadFeedsThunk());
   }, []);
 
   const handleModalClose = () => {
@@ -93,7 +92,7 @@ const App = () => {
             path='/feed/:number'
             element={
               <Modal onClose={handleModalClose} title={''}>
-                <FeedInfo />
+                <OrderInfo />
               </Modal>
             }
           />
