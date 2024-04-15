@@ -1,4 +1,4 @@
-import { SerializedError, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   TLoginData,
@@ -8,11 +8,11 @@ import {
   logoutApi,
   registerUserApi,
   updateUserApi
-} from '@api';
+} from '../utils/burger-api';
 import { TUser } from '@utils-types';
 import { deleteCookie, getCookie, setCookie } from '../utils/cookie';
 
-export const register = createAsyncThunk(
+export const registerUserThunk = createAsyncThunk(
   'auth/register',
   async (userData: TRegisterData) => {
     const data = await registerUserApi(userData);
@@ -22,7 +22,7 @@ export const register = createAsyncThunk(
   }
 );
 
-export const login = createAsyncThunk(
+export const loginUserThunk = createAsyncThunk(
   'user/login',
   async (userData: TLoginData) => {
     const data = await loginUserApi(userData);
@@ -32,7 +32,7 @@ export const login = createAsyncThunk(
   }
 );
 
-export const update = createAsyncThunk(
+export const updateUserThunk = createAsyncThunk(
   'user/update',
   async (userData: TLoginData) => {
     const data = await updateUserApi(userData);
@@ -40,7 +40,7 @@ export const update = createAsyncThunk(
   }
 );
 
-export const loadUser = createAsyncThunk(
+export const loadUserThunk = createAsyncThunk(
   'user/loadUser',
   async (_, { dispatch }) => {
     if (getCookie('accessToken')) {
@@ -57,7 +57,7 @@ export const loadUser = createAsyncThunk(
   }
 );
 
-export const logout = createAsyncThunk('user/logout', async () => {
+export const logoutUserThunk = createAsyncThunk('user/logout', async () => {
   await logoutApi();
   deleteCookie('accessToken');
   localStorage.removeItem('refreshToken');
@@ -66,10 +66,10 @@ export const logout = createAsyncThunk('user/logout', async () => {
 interface DataState {
   user: TUser | null;
   isAuth: boolean;
-  error: SerializedError | undefined;
+  error: string | undefined;
 }
 
-const initialState: DataState = {
+export const initialState: DataState = {
   user: null,
   isAuth: false,
   error: undefined
@@ -92,25 +92,25 @@ export const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(register.rejected, (state, action) => {
-        state.error = action.error;
+      .addCase(registerUserThunk.rejected, (state, action) => {
+        state.error = action.error.message;
       })
-      .addCase(register.fulfilled, (state, action) => {
+      .addCase(registerUserThunk.fulfilled, (state, action) => {
         state.isAuth = true;
         state.user = action.payload;
       })
-      .addCase(login.pending, (state) => {
+      .addCase(loginUserThunk.pending, (state) => {
         state.isAuth = true;
       })
-      .addCase(login.fulfilled, (state, action) => {
+      .addCase(loginUserThunk.fulfilled, (state, action) => {
         state.user = action.payload;
         state.isAuth = true;
       })
-      .addCase(update.fulfilled, (state, action) => {
+      .addCase(updateUserThunk.fulfilled, (state, action) => {
         state.user = action.payload;
         state.isAuth = true;
       })
-      .addCase(logout.fulfilled, (state) => {
+      .addCase(logoutUserThunk.fulfilled, (state) => {
         state.user = null;
       });
   }

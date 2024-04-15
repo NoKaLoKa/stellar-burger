@@ -7,7 +7,7 @@ interface DataState {
   ingredients: TConstructorIngredient[];
 }
 
-const initialState: DataState = {
+export const initialState: DataState = {
   bun: null,
   ingredients: []
 };

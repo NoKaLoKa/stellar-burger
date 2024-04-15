@@ -1,5 +1,5 @@
-import { orderBurgerApi } from '@api';
-import { SerializedError, createSlice } from '@reduxjs/toolkit';
+import { orderBurgerApi } from '../utils/burger-api';
+import { createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { TOrder } from '@utils-types';
 
@@ -11,10 +11,10 @@ export const createOrderThunk = createAsyncThunk(
 interface DataState {
   orderRequest: boolean;
   orderModalData: TOrder | null;
-  error: SerializedError | undefined;
+  error: string | undefined;
 }
 
-const initialState: DataState = {
+export const initialState: DataState = {
   orderRequest: false,
   orderModalData: null,
   error: undefined
@@ -45,7 +45,7 @@ export const newOrderSlice = createSlice({
         state.orderRequest = true;
       })
       .addCase(createOrderThunk.rejected, (state, action) => {
-        state.error = action.error;
+        state.error = action.error.message;
       })
       .addCase(createOrderThunk.fulfilled, (state, action) => {
         state.orderRequest = false;

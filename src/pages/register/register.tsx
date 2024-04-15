@@ -2,7 +2,7 @@ import { FC, SyntheticEvent, useState } from 'react';
 import { RegisterUI } from '@ui-pages';
 import { useDispatch } from '../../services/store';
 import { TRegisterData } from '@api';
-import { register } from '../../features/userSlice';
+import { registerUserThunk } from '../../features/userSlice';
 
 export const Register: FC = () => {
   const [name, setUserName] = useState('');
@@ -17,7 +17,7 @@ export const Register: FC = () => {
       email: email,
       password: password
     };
-    dispatch(register(userData));
+    dispatch(registerUserThunk(userData));
   };
 
   return (

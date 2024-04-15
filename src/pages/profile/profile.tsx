@@ -1,7 +1,7 @@
 import { ProfileUI } from '@ui-pages';
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from '../../services/store';
-import { getUser, update } from '../../features/userSlice';
+import { getUser, updateUserThunk } from '../../features/userSlice';
 import { TRegisterData } from '@api';
 import { useNavigate } from 'react-router-dom';
 
@@ -36,7 +36,7 @@ export const Profile: FC = () => {
       email: formValue.email,
       password: formValue.password
     };
-    dispatch(update(newUserData));
+    dispatch(updateUserThunk(newUserData));
     navigate('/');
   };
 
