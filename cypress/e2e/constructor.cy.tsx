@@ -2,7 +2,7 @@ describe('constructor tests', () => {
   beforeEach(() => {
     cy.visit('http://localhost:4000/')
 
-    cy.intercept('GET', '/api/ingredients', { fixture: 'ingredients' })
+    cy.intercept('GET', '/api/ingredients', { fixture: 'ingredients.json' })
   })
 
   describe('ingredient tests', () => {
@@ -29,7 +29,7 @@ describe('constructor tests', () => {
     })
 
     it('closing modal by click on overlay', () => {
-      cy.get(`[data-cy='modal_overlay']`).click('topRight', {force: true});
+      cy.get(`[data-cy='modalOverlay']`).click('topRight', { force: true });
       cy.get(`[data-cy='modal']`).should('not.exist');
     })
   })
@@ -52,9 +52,9 @@ describe('constructor tests', () => {
       cy.get(`[data-cy='Краторная булка N-200i'] button`).click();
       cy.get(`[data-cy='Биокотлета из марсианской Магнолии'] button`).click();
       cy.get(`[data-cy='orderButton']`).click();
-      cy.get(`[data-cy='login_form'] button`).click();
+      cy.get(`[data-cy='loginForm'] button`).click();
       cy.get(`[data-cy='orderButton']`).click();
-      cy.get(`[data-cy='orderNumber']`).should('have.text', '38108');
+      cy.get(`[data-cy='orderNumber']`).should('have.text', '38184');
       cy.get(`[data-cy='modalClose']`).click();
       cy.get(`[data-cy='chooseBun']`).should('exist')
       cy.get(`[data-cy='orderPrice']`).should('have.text', '0')

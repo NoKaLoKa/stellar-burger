@@ -23,6 +23,7 @@ export const LoginUI: FC<LoginUIProps> = ({
         className={`pb-15 ${styles.form}`}
         name='login'
         onSubmit={handleSubmit}
+        data-cy='loginForm'
       >
         <>
           <div className='pb-6'>
