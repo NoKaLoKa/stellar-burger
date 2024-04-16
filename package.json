@@ -92,13 +92,9 @@
     "build-storybook": "storybook build",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx ./src",
     "lint:fix": "npm run lint -- --fix",
-<<<<<<< HEAD
     "format": "prettier ./src --write",
     "cypress:open": "cypress open",
     "test": "jest"
-=======
-    "format": "prettier ./src --write"
->>>>>>> parent of 5de17c5 (added cypress constructor tests)
   },
   "eslintConfig": {
     "extends": [
