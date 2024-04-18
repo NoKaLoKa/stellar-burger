@@ -2,7 +2,7 @@ import { FC, SyntheticEvent, useState } from 'react';
 import { LoginUI } from '@ui-pages';
 import { TLoginData } from '@api';
 import { useDispatch } from '../../services/store';
-import { login } from '../../features/userSlice';
+import { loginUserThunk } from '../../features/userSlice';
 
 export const Login: FC = () => {
   const [email, setEmail] = useState('');
@@ -15,7 +15,7 @@ export const Login: FC = () => {
       email,
       password
     };
-    dispatch(login(data));
+    dispatch(loginUserThunk(data));
   };
 
   return (

@@ -2,7 +2,6 @@ import {
   createSlice,
   createAsyncThunk,
   createSelector,
-  SerializedError,
   PayloadAction
 } from '@reduxjs/toolkit';
 
@@ -25,10 +24,10 @@ export const getIngredientsByType = (type: string) =>
 interface DataState {
   ingredients: TIngredient[];
   isLoading: boolean;
-  error: SerializedError | undefined;
+  error: string | undefined;
 }
 
-const initialState: DataState = {
+export const initialState: DataState = {
   ingredients: [],
   isLoading: false,
   error: undefined
@@ -56,7 +55,7 @@ export const ingredientsSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getIngredientsThunk.rejected, (state, action) => {
-        state.error = action.error;
+        state.error = action.error.message;
         state.isLoading = true;
         state.ingredients = [];
       })

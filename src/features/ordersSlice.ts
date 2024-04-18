@@ -1,9 +1,5 @@
-import { getFeedsApi, getOrdersApi } from '@api';
-import {
-  SerializedError,
-  createAsyncThunk,
-  createSlice
-} from '@reduxjs/toolkit';
+import { getFeedsApi, getOrdersApi } from '../utils/burger-api';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { TOrder } from '@utils-types';
 
 export const loadFeedsThunk = createAsyncThunk(
@@ -21,10 +17,10 @@ interface DataState {
   total: number;
   totalToday: number;
   isLoading: boolean;
-  error: SerializedError | undefined;
+  error: string | undefined;
 }
 
-const initialState: DataState = {
+export const initialState: DataState = {
   orders: [],
   total: 0,
   totalToday: 0,
@@ -61,7 +57,7 @@ export const ordersSlice = createSlice({
         state.total = 0;
         state.totalToday = 0;
         state.orders = [];
-        state.error = action.error;
+        state.error = action.error.message;
       })
       .addCase(loadFeedsThunk.fulfilled, (state, action) => {
         state.orders = action.payload.orders;

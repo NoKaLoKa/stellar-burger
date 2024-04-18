@@ -23,7 +23,7 @@ import {
 } from '@components';
 import { useEffect } from 'react';
 import { getIngredientsThunk } from '../../features/ingredientsSlice';
-import { loadUser } from '../../features/userSlice';
+import { loadUserThunk } from '../../features/userSlice';
 import { ProtectedRoute } from '../protected-route/protected-route';
 import { loadFeedsThunk } from '../../features/ordersSlice';
 import { useDispatch } from '../../services/store';
@@ -37,7 +37,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(getIngredientsThunk());
-    dispatch(loadUser());
+    dispatch(loadUserThunk());
   }, []);
 
   const handleModalClose = () => {
