@@ -1,5 +1,5 @@
 # Приложение для заказа бургеров
-![Screenshot_1](https://github.com/NoKaLoKa/stellar-burger/assets/34033274/71d96d32-0c0b-4579-9794-246ac20070a4)
+![](https://github.com/NoKaLoKa/stellar-burger/assets/34033274/71d96d32-0c0b-4579-9794-246ac20070a4)
 
 ## О проекте
 
